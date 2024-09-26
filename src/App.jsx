@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import './App.css'
+
+import Header from './components/Header'
 import { getContacts } from './api/ContactService';
 
 
@@ -55,6 +57,14 @@ function App() {
   }
 
   /**
+   * Display of modal
+   * 
+   * @function
+   * @param {boolean} show - Shown or hidden
+   */
+  const toggleModal = (show) => {}
+
+  /**
    * Fetches contacts 
    * @function
    */
@@ -63,9 +73,9 @@ function App() {
   }, [])
 
   return (
-    <div>
-      <h1>Hello</h1>
-    </div>
+    <>
+      <Header toggleModal = {toggleModal} numOfContacts = {data.totalElements}/>
+    </>
   )
 }
 
