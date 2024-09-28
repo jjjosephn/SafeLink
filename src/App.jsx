@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef} from 'react';
 
 import Header from './components/Header'
 import ContactList from './components/ContactList'
@@ -36,6 +36,13 @@ function App() {
    */
   const [currentPage, setCurrentPage] = useState(0)
 
+  /**
+   * Reference modal element
+   * 
+   * @type {React.MutableRefObject}
+   */
+  const modalRef = useRef()
+
 
   /**
    * Fetches contacts from server
@@ -63,7 +70,7 @@ function App() {
    * @function
    * @param {boolean} show - Shown or hidden
    */
-  const toggleModal = (show) => {}
+  const toggleModal = (show) => show ? modalRef.current.showModal() : modalRef.current.close()
 
   /**
    * Fetches contacts 
@@ -82,6 +89,8 @@ function App() {
       <main className="main">
         <div className="container">
           <Routes>
+
+            {/** Default routing */}
             <Route 
               path='/' 
               element={
@@ -89,6 +98,7 @@ function App() {
               } 
             />
 
+            {/** Contacts route shows lsit of contacts */}
             <Route 
               path="/contacts" 
               element={
@@ -102,6 +112,55 @@ function App() {
           </Routes>
         </div>
       </main>
+
+      {/** Modal Display */}
+      <dialog ref={modalRef} className="modal" id="modal">
+        <div className='modal__header'>
+          <h3>New Contact</h3>
+          {/** Toggles modal off if clicked */}
+          <i onClick={() => toggleModal(false)} className='bi bi-x-lg'></i>
+        </div>
+        <div className='divider'/>
+        <div className='modal__body'>
+          <form>
+            <div className='user-details'>
+              <div className='input-box'>
+                <span className='details'>Name</span>
+                <input type='text' name='name' required />
+              </div>
+              <div className='input-box'>
+                <span className='details'>Email</span>
+                <input type='text' name='email' required />
+              </div>
+              <div className='input-box'>
+                <span className='details'>Title</span>
+                <input type='text' name='title' required />
+              </div>
+              <div className='input-box'>
+                <span className='details'>Phone</span>
+                <input type='text' name='phone' required />
+              </div>
+              <div className='input-box'>
+                <span className='details'>Address</span>
+                <input type='text' name='address' required />
+              </div>
+              <div className='input-box'>
+                <span className='details'>Account Status</span>
+                <input type='text' name='status' required />
+              </div>
+              <div className='file-input'>
+                <span className='details'>Profile Photo</span>
+                <input type='file' name='photo' required />
+              </div>
+            </div>
+            <div className='form_footer'>
+              <button onClick={() => toggleModal(false)} className='btn btn-danger'> Cancel</button>
+              <button type='submit' className='btn'>Save</button>
+            </div>
+          </form>
+        </div>
+
+      </dialog>
     </>
   )
 }
