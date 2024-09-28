@@ -2,7 +2,7 @@ import { useState, useEffect, useRef} from 'react';
 
 import Header from './components/Header'
 import ContactList from './components/ContactList'
-import { getContacts } from './api/ContactService';
+import { getContacts, saveContact, updatePhoto } from './api/ContactService';
 import {Routes, Route, Navigate} from 'react-router-dom'
 
 
@@ -48,7 +48,7 @@ function App() {
     title: '',
     phone: '',
     address: '',
-    status: '',
+    status: ''
   })
 
   /**
@@ -92,6 +92,8 @@ function App() {
    * @param {number} [page = 0] - The page number to retrieve (default is 0)
    * @param {number} [size = 10] - Number of contacts per page (defaults to 10)
    * @returns {Promise<void>} - Updates data and current page
+   * 
+   * @throws - Logs any errors
    */
   const getAllContacts = async (page = 0, size = 10) => {
     try {
@@ -103,6 +105,50 @@ function App() {
       console.log(error)
     }
   }
+  
+  /**
+   * Saves contact details including photo
+   * 
+   * @async
+   * @function handleNewContact
+   * @param {Event} e - Submission event
+   * @returns {Promise<void>} - Handles form submission, resets form, and updates contact list
+   * 
+   * @throws - Logs any errors
+   */
+  const handleNewContact = async (e) => {
+    {/** Prevents refresh after form submission */}
+    e.preventDefault();
+    try{
+      {/** Saves details excluding photo */}
+      const {data} = await saveContact(values);
+
+      {/** Create formdata to handle file upload */}
+      const formData = new FormData();
+      formData.append('file', file, file.name);
+      formData.append('id', data.id);
+
+      {/** Upload and retreive photo url */}
+      const {data: photoUrl} = await updatePhoto(formData);
+
+      {/** Close modal, reset form, and update contact list */}
+      toggleModal(false);
+      console.log(photoUrl);
+      setFile(undefined);
+      fileRef.current.value = null;
+      setValues({
+        name: '',
+        email: '',
+        title: '',
+        phone: '',
+        address: '',
+        status: ''
+      })
+      getAllContacts();
+    }catch(error){
+      console.log(error);
+    }
+  }
 
   /**
    * Display of modal
@@ -110,7 +156,7 @@ function App() {
    * @function
    * @param {boolean} show - Shown or hidden
    */
-  const toggleModal = (show) => show ? modalRef.current.showModal() : modalRef.current.close()
+  const toggleModal = show => show ? modalRef.current.showModal() : modalRef.current.close();
 
   /**
    * Fetches contacts 
@@ -162,7 +208,8 @@ function App() {
         </div>
         <div className='divider'/>
         <div className='modal__body'>
-          <form>
+          {/** Saves new contact when save button is clicked */}
+          <form onSubmit={handleNewContact}>
             <div className='user-details'>
               <div className='input-box'>
                 <span className='details'>Name</span>
@@ -196,6 +243,7 @@ function App() {
               </div>
             </div>
             <div className='form_footer'>
+              {/** Toggles modal off if clicked */}
               <button onClick={() => toggleModal(false)} className='btn btn-danger'> Cancel</button>
               <button type='submit' className='btn'>Save</button>
             </div>
