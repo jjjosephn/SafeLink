@@ -2,8 +2,9 @@ import { useState, useEffect, useRef} from 'react';
 
 import Header from './components/Header'
 import ContactList from './components/ContactList'
-import { getContacts, saveContact, updatePhoto } from './api/ContactService';
+import { getContacts, saveContact, updateContact, updatePhoto } from './api/ContactService';
 import {Routes, Route, Navigate} from 'react-router-dom'
+import ContactDetail from './components/ContactDetail';
 
 
 /**
@@ -65,7 +66,6 @@ function App() {
    */
   const change = (e) => {
     setValues({... values, [e.target.name]: e.target.value});
-    console.log(values)
   }
 
   /**
@@ -100,7 +100,6 @@ function App() {
       setCurrentPage(page);
       const { data } = await getContacts(page, size);
       setData(data);
-      console.log(data);
     } catch(error) {
       console.log(error)
     }
@@ -133,7 +132,6 @@ function App() {
 
       {/** Close modal, reset form, and update contact list */}
       toggleModal(false);
-      console.log(photoUrl);
       setFile(undefined);
       fileRef.current.value = null;
       setValues({
@@ -157,6 +155,10 @@ function App() {
    * @param {boolean} show - Shown or hidden
    */
   const toggleModal = show => show ? modalRef.current.showModal() : modalRef.current.close();
+
+  const updateContact = async () => {};
+
+  const updateImage = async () => {};
 
   /**
    * Fetches contacts 
@@ -184,7 +186,7 @@ function App() {
               } 
             />
 
-            {/** Contacts route shows lsit of contacts */}
+            {/** Contacts route shows list of contacts */}
             <Route 
               path="/contacts" 
               element={
@@ -195,6 +197,17 @@ function App() {
                 />
               } 
             />
+
+            {/** Route to show selected contact */}
+            <Route 
+              path="/contacts/:id" 
+              element={
+                <ContactDetail
+                  updateContact = {updateContact} 
+                  updateImage = {updateImage}
+                />
+              } 
+            />  
           </Routes>
         </div>
       </main>

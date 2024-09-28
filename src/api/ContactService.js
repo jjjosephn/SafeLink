@@ -45,8 +45,8 @@ export async function getContacts(page = 0, size = 10){
  * @param {string} id - ID used to retreive info
  * @returns {Promise<Object>} - The contact retrieved from API
  */
-export async function getContact(id){
-   return await axios.post(`${API_URL}/${id}`);
+export async function getContact(id) {
+   return await axios.get(`${API_URL}/${id}`);
 }
 
 /**
