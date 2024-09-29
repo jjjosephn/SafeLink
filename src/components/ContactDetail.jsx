@@ -1,6 +1,9 @@
 import React, {useState, useEffect, useRef} from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getContact } from '../api/ContactService';
+import { toastSuccess } from '../api/ToastService';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; 
 
 /**
  * ContactDetail to show details of a selected contact

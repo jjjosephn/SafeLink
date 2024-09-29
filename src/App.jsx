@@ -5,6 +5,8 @@ import ContactList from './components/ContactList'
 import { getContacts, saveContact, updateContact, updatePhoto } from './api/ContactService';
 import {Routes, Route, Navigate} from 'react-router-dom'
 import ContactDetail from './components/ContactDetail';
+import { toastError, toastSuccess } from './api/ToastService';
+import { ToastContainer, toast } from 'react-toastify';
 
 
 /**
@@ -101,7 +103,8 @@ function App() {
       const { data } = await getContacts(page, size);
       setData(data);
     } catch(error) {
-      console.log(error)
+      console.log(error);
+      toastError(error.message);
     }
   }
   
@@ -143,8 +146,10 @@ function App() {
         status: ''
       })
       getAllContacts();
+      toastSuccess("Contact Added")
     }catch(error){
       console.log(error);
+      toastError(error.message);
     }
   }
 
@@ -172,8 +177,10 @@ function App() {
       const {data} = await saveContact(contact);
       getAllContacts();
       console.log(data);
+      toastSuccess("Contact Updated")
     }catch(error){
       console.log(error);
+      toastError(error.message);
     }
   };
 
@@ -193,8 +200,10 @@ function App() {
       const {data} = await updatePhoto(formData);
       getAllContacts();
       console.log(data)
+      toastSuccess("Photo Updated")
     }catch(error){
       console.log(error);
+      toastError(error.message);
     }
   };
 
@@ -300,8 +309,8 @@ function App() {
             </div>
           </form>
         </div>
-
       </dialog>
+      <ToastContainer />
     </>
   )
 }
