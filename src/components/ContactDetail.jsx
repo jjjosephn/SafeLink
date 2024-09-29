@@ -12,6 +12,7 @@ import { getContact } from '../api/ContactService';
  */
 const ContactDetail = ({updateContact, updateImage}) => {
    const [contact, setContact] = useState({
+      id: '',
       name: '',
       email: '',
       title: '',
@@ -47,6 +48,27 @@ const ContactDetail = ({updateContact, updateImage}) => {
     */
    const selectImage = () => {
       inputRef.current.click();
+   }
+
+    /**
+   * Handles change in form fields
+   * 
+   * @param {Event} e - Event change
+   */
+   const change = (e) => {
+      setContact({... contact, [e.target.name]: e.target.value});
+      console.log(contact)
+   }
+
+   /**
+   * Updates form when submitted
+   * 
+   * @param {Event} e - Event change
+   */
+   const onUpdate = async(e) => {
+      e.preventDefault();
+      await updateContact(contact);
+      fetchContact(id);
    }
 
    /**
@@ -90,7 +112,43 @@ const ContactDetail = ({updateContact, updateImage}) => {
                   <button onClick={selectImage} className='btn'><i className='bi bi-cloud-upload'></i> Change Photo</button>
                </div>
             </div>
-            <div className='profile__settings'>Settings will go here</div>
+            <div className='profile__settings'>
+               <div>
+                  {/** Update function when form is submitted */}
+                  <form onSubmit={onUpdate} className='form'>
+                     <div className='user-details'>
+                        <input type='hidden' defaultValue={contact.id} name='id' required/>
+                        <div className='input-box'>
+                           <span className='details'>Name</span>
+                           <input type='text' value={contact.name} onChange={change} name='name' required/>
+                        </div>
+                        <div className='input-box'>
+                           <span className='details'>Email</span>
+                           <input type='text' value={contact.email} onChange={change} name='email' required/>
+                        </div>
+                        <div className='input-box'>
+                           <span className='details'>Phone</span>
+                           <input type='text' value={contact.phone} onChange={change} name='phone' required/>
+                        </div>
+                        <div className='input-box'>
+                           <span className='details'>Address</span>
+                           <input type='text' value={contact.address} onChange={change} name='address' required/>
+                        </div>
+                        <div className='input-box'>
+                           <span className='details'>Title</span>
+                           <input type='text' value={contact.title} onChange={change} name='title' required/>
+                        </div>
+                        <div className='input-box'>
+                           <span className='details'>Status</span>
+                           <input type='text' value={contact.status} onChange={change} name='status' required/>
+                        </div>
+                     </div>
+                     <div className='form_footer'>
+                        <button type='submit' className='btn'>Save</button>
+                     </div>
+                  </form>
+               </div>
+            </div>
          </div>
          
          {/** Form just for uploading a new profile pic */}

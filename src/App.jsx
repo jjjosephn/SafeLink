@@ -113,7 +113,7 @@ function App() {
    * @param {Event} e - Submission event
    * @returns {Promise<void>} - Handles form submission, resets form, and updates contact list
    * 
-   * @throws - Logs any errors
+   * @throws {Error} - Logs any errors
    */
   const handleNewContact = async (e) => {
     {/** Prevents refresh after form submission */}
@@ -156,11 +156,43 @@ function App() {
    */
   const toggleModal = show => show ? modalRef.current.showModal() : modalRef.current.close();
 
-  const updateContact = async () => {};
+  /**
+   * Updates contact by saving content
+   * 
+   * @async
+   * @function updateContact
+   * 
+   * @param {Contact} contact
+   * @returns {Promise<void>} - Contact is updated and fetched
+   * 
+   * @throws {Error} - Logs any error
+   */
+  const updateContact = async (contact) => {
+    try{
+      const {data} = await saveContact(contact);
+      getAllContacts();
+      console.log(data);
+    }catch(error){
+      console.log(error);
+    }
+  };
 
+  /**
+   * Updates image
+   * 
+   * @async
+   * @function updateContact
+   * 
+   * @param {FormData} formData - Contains image file
+   * @returns {Promise<void>} - Image is updated and contact is fetched
+   * 
+   * @throws {Error} - Logs any error
+   */
   const updateImage = async (formData) => {
     try{
-      const {data: photoUrl} = await updatePhoto(formData);
+      const {data} = await updatePhoto(formData);
+      getAllContacts();
+      console.log(data)
     }catch(error){
       console.log(error);
     }
