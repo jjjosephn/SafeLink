@@ -5,6 +5,7 @@ const Contact = ({contact}) => {
    return (
       <Link to={`/contacts/${contact.id}`} className="contact__item">
          <div className="contact__header">
+            
             <div className="contact__image">
                   <img src={contact.photoUrl} alt={contact.name}  />
             </div>
