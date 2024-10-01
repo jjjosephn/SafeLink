@@ -10,13 +10,6 @@ const Header = ({toggleModal, numOfContacts}) => {
                <i className='bi bi-plus-square'></i>Add New Contact
             </button>
          </div>
-         <span className='search'>
-            <input 
-               type='text' 
-               placeholder='Search Contacts...' 
-               className='search-input'
-            />
-         </span>
       </header>
   )
 }

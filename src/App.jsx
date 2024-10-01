@@ -92,12 +92,12 @@ function App() {
    * @async
    * @function getAllContacts
    * @param {number} [page = 0] - The page number to retrieve (default is 0)
-   * @param {number} [size = 10] - Number of contacts per page (defaults to 10)
+   * @param {number} [size = 12] - Number of contacts per page (defaults to 12)
    * @returns {Promise<void>} - Updates data and current page
    * 
    * @throws - Logs any errors
    */
-  const getAllContacts = async (page = 0, size = 10) => {
+  const getAllContacts = async (page = 0, size = 12) => {
     try {
       setCurrentPage(page);
       const { data } = await getContacts(page, size);

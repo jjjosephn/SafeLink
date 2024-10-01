@@ -31,11 +31,11 @@ export async function saveContact(contact){
  * Retrieves contacts from the API with pagination
  * 
  * @param {number} [page = 0] - The page number to retrieve (default is 0)
- * @param {number} [size = 10] - Number of contacts per page (defaults to 10)
+ * @param {number} [size = 12] - Number of contacts per page (defaults to 10)
  * @returns {Promise<Object>} - A list of contacts from API
  */
 
-export async function getContacts(page = 0, size = 10){
+export async function getContacts(page = 0, size = 12){
    return await axios.get(`${API_URL}?page=${page}&size=${size}`);
 }
 

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import Contact from "./Contact"
 
 /**
@@ -16,20 +16,35 @@ import Contact from "./Contact"
  */
 
 const ContactList = ({data, currentPage, getAllContacts}) => {
+  const [search, setSearch] = useState('');
+
+  const filteredContacts = (data?.content || []).filter(contact => {
+    return contact.name.toLowerCase().includes(search.toLowerCase());
+  })
+
+  console.log(search);
   return (
     <main className='main'>
+      <span className='search'>
+        <input 
+            type='text' 
+            placeholder='Search' 
+            className='search-input'
+            onChange={(e) => setSearch(e.target.value)}
+        />
+      </span>
 
       {/** Message when there are no contacts */}
-      {data?.content?.length === 0 && <div>No Contacts. Add a New Contact.</div>}
+      {filteredContacts.length === 0 && <div>No Contacts</div>}
       
       {/** Renders each contact component if there is at least one contact */}
       <ul className='contact__list'>
-         {data?.content?.length > 0 && 
-          data.content.map(contact => <Contact contact={contact} key={contact.id}/>)}
+         {filteredContacts.length > 0 && 
+          filteredContacts.map(contact => <Contact contact={contact} key={contact.id}/>)}
       </ul>
 
       {/** Pagination control */}
-      {data?.content?.length > 0 && data?.totalPages > 1 &&
+      {filteredContacts.length > 0 && data?.totalPages > 1 &&
       <div className='pagination'>
 
           {/** Previous page button disabled if page is 0 */}

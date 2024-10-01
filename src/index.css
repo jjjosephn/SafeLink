@@ -434,14 +434,12 @@ i {
 
 
 .search {
-	margin-top: 20px;
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
 	align-items: center;
 	flex-wrap: wrap;
-	gap: 1rem;
-	margin-top: 1rem;
+	padding-bottom: 1.5rem;
 }
  
 .search-input {
@@ -452,8 +450,6 @@ i {
 	border-radius: 5px; 
 	font-size: 16px; 
 	outline: none; 
-	
-	
 }
 
 /* Modal */
