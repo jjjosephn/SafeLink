@@ -21,7 +21,7 @@ function App() {
   * @property {string} email - Email of contact
   * @property {string} title  - Title of contact
   * @property {string} address - Address of contact
-  * @property {string} status - Active or inactive
+  * @property {string} relationship - Relationship with individual
   * @property {string} photoUrl - Photo of contact
    */
 
@@ -51,7 +51,7 @@ function App() {
     title: '',
     phone: '',
     address: '',
-    status: ''
+    relationship: ''
   })
 
   /**
@@ -143,7 +143,7 @@ function App() {
         title: '',
         phone: '',
         address: '',
-        status: ''
+        relationship: ''
       })
       getAllContacts();
       toastSuccess("Contact Added")
@@ -293,8 +293,8 @@ function App() {
                 <input type='text' value={values.address} onChange={change} name='address' required />
               </div>
               <div className='input-box'>
-                <span className='details'>Account Status</span>
-                <input type='text' value={values.status} onChange={change} name='status' required />
+                <span className='details'>Relationship</span>
+                <input type='text' value={values.relationship} onChange={change} name='relationship' required />
               </div>
               <div className='file-input'>
                 <span className='details'>Profile Photo</span>

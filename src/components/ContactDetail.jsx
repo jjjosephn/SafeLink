@@ -1,8 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { getContact } from '../api/ContactService';
-import { toastSuccess } from '../api/ToastService';
-import { toast } from 'react-toastify';
+
 import 'react-toastify/dist/ReactToastify.css'; 
 
 /**
@@ -21,12 +20,13 @@ const ContactDetail = ({updateContact, updateImage}) => {
       title: '',
       phone: '',
       address: '',
-      status: '',
+      relationship: '',
       photoUrl: ''
    });
 
    const { id } = useParams();
    const inputRef = useRef()
+   const navigate = useNavigate();
    
    /**
     * Fetch contact detail from API
@@ -72,6 +72,7 @@ const ContactDetail = ({updateContact, updateImage}) => {
       e.preventDefault();
       await updateContact(contact);
       fetchContact(id);
+      navigate('/contacts');
    }
 
    /**
@@ -103,7 +104,7 @@ const ContactDetail = ({updateContact, updateImage}) => {
       <>
          <Link to="/contacts" className="link">
             <i className='bi bi-arrow-left'/>
-             Back to List
+               Back to List
          </Link>
          <div className='profile'>
             <div className='profile__details'>
@@ -142,8 +143,8 @@ const ContactDetail = ({updateContact, updateImage}) => {
                            <input type='text' value={contact.title} onChange={change} name='title' required/>
                         </div>
                         <div className='input-box'>
-                           <span className='details'>Status</span>
-                           <input type='text' value={contact.status} onChange={change} name='status' required/>
+                           <span className='details'>Relationship</span>
+                           <input type='text' value={contact.relationship} onChange={change} name='relationship' required/>
                         </div>
                      </div>
                      <div className='form_footer'>

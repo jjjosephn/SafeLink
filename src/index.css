@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Lobster:wght@400;700&display=swap');
+
 /* GLOBAL VARIABLES */
 :root {
 	--selective-blue: hsl(210, 69%, 25%);
@@ -172,8 +174,15 @@ i {
 	font-size: 1.2rem;
 }
 
+h1 {
+	font-family: 'Lobster', sans-serif;
+	font-size: 3.5rem;
+	text-shadow: 
+		1px 1px 0 rgba(0, 0, 0, 0.2), 
+		2px 2px 0 rgba(0, 0, 0, 0.2), 
+		3px 3px 0 rgba(0, 0, 0, 0.2);
+}
 p,
-h1,
 h3,
 h4,
 h5,

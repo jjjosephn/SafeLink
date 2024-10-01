@@ -17,9 +17,7 @@ const Contact = ({contact}) => {
             <p><i className="bi bi-envelope"></i>{contact.email.substring(0,20)}</p>
             <p><i className="bi bi-geo"></i> {contact.address}</p>
             <p><i className="bi bi-telephone"></i> {contact.phone}</p>
-            <p>{contact.status === 'Active' ?<i className='bi bi-check-circle'></i> : 
-               <i className='bi bi-x-circle'></i>} {contact.status}
-            </p>
+            <p><i className='bi bi-person'></i>{contact.relationship}</p>
          </div>
       </Link>
     )

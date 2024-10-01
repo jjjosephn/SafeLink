@@ -13,7 +13,7 @@ const API_URL = "http://localhost:8080/contacts";
  * @property {string} email - Email of contact
  * @property {string} title  - Title of contact
  * @property {string} address - Address of contact
- * @property {string} status - Active or inactive
+ * @property {string} relationship - Relationship
  * @property {string} photoUrl - Photo of contact
  */
 
