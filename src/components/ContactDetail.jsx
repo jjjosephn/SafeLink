@@ -53,14 +53,34 @@ const ContactDetail = ({updateContact, updateImage}) => {
       inputRef.current.click();
    }
 
+   /**
+    * Formats a phone number into (123)456-7890.
+    * 
+    * @param {string} value - The input phone number as a string.
+    * @returns {string} - The formatted phone number, or the original input if it's not a valid 10-digit number.
+    */
+   const formatPhoneNumber = (value) => {
+      const cleaned = ('' + value).replace(/\D/g, '');
+
+      const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
+      if (cleaned.length === 10) {
+         return `(${cleaned.slice(0, 3)})${cleaned.slice(3, 6)}-${cleaned.slice(6)}`; // Adjusted formatting
+      }
+      return value;
+    };
+
     /**
    * Handles change in form fields
    * 
    * @param {Event} e - Event change
    */
    const change = (e) => {
-      setContact({... contact, [e.target.name]: e.target.value});
-      console.log(contact)
+      const { name, value } = e.target;
+
+    /* Format phone number */
+    const formattedValue = name === 'phone' ? formatPhoneNumber(value) : value;
+
+    setContact({ ...contact, [name]: formattedValue });
    }
 
    /**
@@ -132,7 +152,7 @@ const ContactDetail = ({updateContact, updateImage}) => {
                         </div>
                         <div className='input-box'>
                            <span className='details'>Phone</span>
-                           <input type='text' value={contact.phone} onChange={change} name='phone' required/>
+                           <input type='text' value={contact.phone} onChange={change} name='phone' maxLength={13} required/>
                         </div>
                         <div className='input-box'>
                            <span className='details'>Address</span>

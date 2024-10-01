@@ -8,7 +8,6 @@ import ContactDetail from './components/ContactDetail';
 import { toastError, toastSuccess } from './api/ToastService';
 import { ToastContainer, toast } from 'react-toastify';
 
-
 /**
  * App fetches contact data
  * @function
@@ -61,14 +60,30 @@ function App() {
    */
   const [file, setFile] = useState(undefined)
 
+  // Function to format phone numbers (123)456-7890
+  const formatPhoneNumber = (value) => {
+    const cleaned = ('' + value).replace(/\D/g, '');
+
+    const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
+    if (cleaned.length === 10) {
+      return `(${cleaned.slice(0, 3)})${cleaned.slice(3, 6)}-${cleaned.slice(6)}`; // Adjusted formatting
+    }
+  return value;
+  };
+
   /**
    * Handles change in form fields
    * 
    * @param {Event} e - Event change
    */
   const change = (e) => {
-    setValues({... values, [e.target.name]: e.target.value});
-  }
+    const { name, value } = e.target;
+
+    /* Format phone number */
+    const formattedValue = name === 'phone' ? formatPhoneNumber(value) : value;
+
+    setValues({ ...values, [name]: formattedValue });
+  };
 
   /**
    * Reference modal element
@@ -119,24 +134,36 @@ function App() {
    * @throws {Error} - Logs any errors
    */
   const handleNewContact = async (e) => {
-    {/** Prevents refresh after form submission */}
+    /** Prevents refresh after form submission */
     e.preventDefault();
     try{
-      {/** Saves details excluding photo */}
+      /** Saves details excluding photo */
       const {data} = await saveContact(values);
 
-      {/** Create formdata to handle file upload */}
+      /** Create formdata to handle file upload */
       const formData = new FormData();
       formData.append('file', file, file.name);
       formData.append('id', data.id);
 
-      {/** Upload and retreive photo url */}
+      /** Upload and retreive photo url */
       const {data: photoUrl} = await updatePhoto(formData);
-
-      {/** Close modal, reset form, and update contact list */}
+      getAllContacts();
+      toastSuccess("Contact Added")
       toggleModal(false);
-      setFile(undefined);
-      fileRef.current.value = null;
+    }catch(error){
+      console.log(error);
+      toastError(error.message);
+    }
+  }
+
+  /**
+   * Reset modal input if false
+   * 
+   * @function
+   * @param {boolean} show - Shown or hidden
+   */
+  const toggleModal = show => {
+    if (!show){
       setValues({
         name: '',
         email: '',
@@ -145,21 +172,13 @@ function App() {
         address: '',
         relationship: ''
       })
-      getAllContacts();
-      toastSuccess("Contact Added")
-    }catch(error){
-      console.log(error);
-      toastError(error.message);
+      setFile(undefined);
+      if (fileRef.current){
+        fileRef.current.value = null;
+      }
     }
+    show ? modalRef.current.showModal() : modalRef.current.close();
   }
-
-  /**
-   * Display of modal
-   * 
-   * @function
-   * @param {boolean} show - Shown or hidden
-   */
-  const toggleModal = show => show ? modalRef.current.showModal() : modalRef.current.close();
 
   /**
    * Updates contact by saving content
@@ -188,7 +207,7 @@ function App() {
    * Updates image
    * 
    * @async
-   * @function updateContact
+   * @function updateImage
    * 
    * @param {FormData} formData - Contains image file
    * @returns {Promise<void>} - Image is updated and contact is fetched
@@ -286,7 +305,7 @@ function App() {
               </div>
               <div className='input-box'>
                 <span className='details'>Phone</span>
-                <input type='text' value={values.phone} onChange={change} name='phone' required />
+                <input type='text' value={values.phone} onChange={change} name='phone' maxLength={13} required />
               </div>
               <div className='input-box'>
                 <span className='details'>Address</span>

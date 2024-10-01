@@ -28,7 +28,7 @@ const ContactList = ({data, currentPage, getAllContacts}) => {
       <span className='search'>
         <input 
             type='text' 
-            placeholder='Search' 
+            placeholder='Search Contact' 
             className='search-input'
             onChange={(e) => setSearch(e.target.value)}
         />
