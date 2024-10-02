@@ -46,5 +46,9 @@ Before you begin, ensure you have the following:
    npm run dev
    ```
    The frontend will start running on ```http://localhost:5173```
+
+## Visuals
+** Potential Contact Page **
+
    
    
