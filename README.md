@@ -1,6 +1,8 @@
 # SafeLink
 SafeLink is an application designed to help users manage and store contact information in a efficient manner. The application allows users to create, read, update, and delete (CRUD) contact details through an intuitive interface, making it ideal for personal or business use.
 
+<img width="300" alt="gif" src="https://discovertemplate.com/wp-content/uploads/wc-document-uploads/1/Contact-us-Animated-GIF-Icon-Pack-by-Discover-Template.gif">
+
 ## Tech Stack 🔧
 - Frontend: Vite, React, JavaScript
 - Backend: SpringBoot, PostgreSQL
@@ -47,7 +49,7 @@ Before you begin, ensure you have the following:
    ```
    The frontend will start running on ```http://localhost:5173```
 
-## Visuals
+## Visuals 🌟
 **Potential Contact Page**
 
 ![Potential Contact Page](assets/Potential.png "A potential layout for the contact page")
