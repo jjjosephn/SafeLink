@@ -50,14 +50,14 @@ Before you begin, ensure you have the following:
 ## Visuals
 **Potential Contact Page**
 
-![Potential Contact Page](Potential.png "A potential layout for the contact page")
+![Potential Contact Page](assets/Potential.png "A potential layout for the contact page")
 
 **Create Contact Page**
 
-![Create Contact Page](Create.png "A layout for creating a new contact")
+![Create Contact Page](assets/Create.png "A layout for creating a new contact")
 
 **Read Contact Page**
 
-![Read Contact Page](Read.png "A layout for viewing a contact")
+![Read Contact Page](assets/Read.png "A layout for viewing a contact")
    
    
