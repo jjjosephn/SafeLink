@@ -1,9 +1,10 @@
 import React, {useState, useEffect, useRef} from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { getContact } from '../api/ContactService';
+import { getContact, deleteContact } from '../api/ContactService';
+import {ToastContainer} from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css'; 
-
+import { toastSuccess } from '../api/ToastService';
 /**
  * ContactDetail to show details of a selected contact
  * 
@@ -12,7 +13,7 @@ import 'react-toastify/dist/ReactToastify.css';
  * @param {Function} props.updateImage - Function to update image
  * @returns 
  */
-const ContactDetail = ({updateContact, updateImage}) => {
+const ContactDetail = ({updateContact, updateImage, removeContact}) => {
    const [contact, setContact] = useState({
       id: '',
       name: '',
@@ -82,6 +83,7 @@ const ContactDetail = ({updateContact, updateImage}) => {
 
     setContact({ ...contact, [name]: formattedValue });
    }
+   
 
    /**
    * Updates form when submitted
@@ -94,6 +96,20 @@ const ContactDetail = ({updateContact, updateImage}) => {
       fetchContact(id);
       navigate('/contacts');
    }
+
+   const handleDelete = async () => {
+      // Prompt the user for confirmation
+      if (window.confirm(`Are you sure you want to delete ${contact.name}?`)){
+         try{
+            await deleteContact(id);
+            removeContact(id);
+            navigate('/contacts');
+            toastSuccess("Contact Deleted");
+         } catch (error){
+            console.log(error);
+         }
+      }
+  };
 
    /**
     * Updates contact's photo by uploading a new photo
@@ -114,6 +130,8 @@ const ContactDetail = ({updateContact, updateImage}) => {
         console.log(error);
       }
    }
+
+
 
    useEffect (() => {
       fetchContact(id);
@@ -169,6 +187,7 @@ const ContactDetail = ({updateContact, updateImage}) => {
                      </div>
                      <div className='form_footer'>
                         <button type='submit' className='btn'>Save</button>
+                        <button type='button' className='btn btn-danger' onClick={handleDelete}>Delete</button>
                      </div>
                   </form>
                </div>

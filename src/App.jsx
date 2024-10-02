@@ -2,7 +2,7 @@ import { useState, useEffect, useRef} from 'react';
 
 import Header from './components/Header'
 import ContactList from './components/ContactList'
-import { getContacts, saveContact, updateContact, updatePhoto } from './api/ContactService';
+import { getContacts, saveContact, updatePhoto } from './api/ContactService';
 import {Routes, Route, Navigate} from 'react-router-dom'
 import ContactDetail from './components/ContactDetail';
 import { toastError, toastSuccess } from './api/ToastService';
@@ -122,6 +122,19 @@ function App() {
       toastError(error.message);
     }
   }
+
+  /**
+   * Removes a contact from the contact list by its ID
+   * Updates state and filters out deleted contact
+   *
+   * @param {string} id
+  */
+  const removeContactFromList = (id) => {
+    setData((prevData) => ({
+      ...prevData,
+      content: prevData.content.filter((contact) => contact.id !== id)
+    }));
+  };
   
   /**
    * Saves contact details including photo
@@ -156,6 +169,7 @@ function App() {
     }
   }
 
+  
   /**
    * Reset modal input if false
    * 
@@ -271,6 +285,7 @@ function App() {
                 <ContactDetail
                   updateContact = {updateContact} 
                   updateImage = {updateImage}
+                  removeContact = {removeContactFromList}
                 />
               } 
             />  
